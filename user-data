@@ -20,7 +20,7 @@ autoinstall:
     - curl
     - gnupg
     - lsb-release
-    - zsh
+    #- zsh
   # To run after install succeeds
   late-commands:
     # randomly generate the hostname & show the IP at boot

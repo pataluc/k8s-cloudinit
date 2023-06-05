@@ -26,7 +26,6 @@ users:
     sudo: ALL=(ALL) ALL
     groups: users, admin
     ssh_import_id:
-      - celuc
       - gh:pataluc
     lock_passwd: true
 

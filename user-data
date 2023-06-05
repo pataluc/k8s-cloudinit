@@ -8,7 +8,7 @@ autoinstall:
     layout: fr
 
   ssh:
-    allow-pw: false
+    allow-pw: true
     install-server: true
 
   # Packages
@@ -28,8 +28,8 @@ autoinstall:
     # dump the IP out at login screen
     - echo "Ubuntu 22.04 LTS \nIP - $(hostname -I)\n" > /target/etc/issue
     # storage was a pain in the ass and merged multiple things, I just want a 100% use of the fs. (alt option: https://gist.github.com/anedward01/b68e00bb2dcfa4f1335cd4590cbc8484#file-user-data-L97-L199)
-    - curtin in-target --target=/target -- lvextend -l +100%FREE /dev/mapper/ubuntu--vg-ubuntu--lv
-    - curtin in-target --target=/target -- resize2fs /dev/mapper/ubuntu--vg-ubuntu--lv
+    #- curtin in-target --target=/target -- lvextend -l +100%FREE /dev/mapper/ubuntu--vg-ubuntu--lv
+    #- curtin in-target --target=/target -- resize2fs /dev/mapper/ubuntu--vg-ubuntu--lv
     # shut-down the host to avoid an infinite installer loop
     - shutdown -h now
 
@@ -41,8 +41,9 @@ autoinstall:
         groups: users, admin
         ssh_import_id:
           - gh:pataluc
-        lock_passwd: true
-        shell: /bin/zsh
+        password: "$5$r3Kl6AKBqjA78VCX$4.Vuc56PR2faX3vLuqBxHxF796qiLhxuS4MacXtTt5C"
+        lock_passwd: false
+        #shell: /bin/zsh
 
     # files to write on system
     write_files:

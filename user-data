@@ -60,7 +60,7 @@ autoinstall:
       - curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --dearmor -o /usr/share/keyrings/kubernetes-archive-keyring.gpg
       - echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list # Add the Kubernetes apt repository
       - apt-get update -y # Update apt package index
-      - apt-get install -y containerd.io kubelet kubeadm kubectl # Install Docker Engine, kubelet, kubeadm and kubectl
+      - apt-get install -y containerd kubelet kubeadm kubectl # Install Docker Engine, kubelet, kubeadm and kubectl
       - apt-mark hold kubelet kubeadm kubectl # pin kubelet kubeadm kubectl version
       - sysctl --system # Reload settings from all system configuration files to take iptables configuration
 

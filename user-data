@@ -20,13 +20,13 @@ autoinstall:
     - curl
     - gnupg
     - lsb-release
-    #- zsh
+    - zsh
   # To run after install succeeds
   late-commands:
     # randomly generate the hostname & show the IP at boot
     - echo ubuntu-host-$(openssl rand -hex 3) > /target/etc/hostname
     # dump the IP out at login screen
-    - echo "Ubuntu 22.04 LTS \nIP - $(hostname -I)\n" > /target/etc/issue
+    - echo "Ubuntu 22.04 LTS \nIP - \\4\n" > /target/etc/issue
     # storage was a pain in the ass and merged multiple things, I just want a 100% use of the fs. (alt option: https://gist.github.com/anedward01/b68e00bb2dcfa4f1335cd4590cbc8484#file-user-data-L97-L199)
     #- curtin in-target --target=/target -- lvextend -l +100%FREE /dev/mapper/ubuntu--vg-ubuntu--lv
     #- curtin in-target --target=/target -- resize2fs /dev/mapper/ubuntu--vg-ubuntu--lv
@@ -41,28 +41,7 @@ autoinstall:
         groups: users, admin
         ssh_import_id:
           - gh:pataluc
-        password: "$5$r3Kl6AKBqjA78VCX$4.Vuc56PR2faX3vLuqBxHxF796qiLhxuS4MacXtTt5C"
-        lock_passwd: false
-        #shell: /bin/zsh
-
-    # files to write on system
-    write_files:
-      - path: /etc/modules-load.d/k8s.conf
-        content: |
-          br_netfilter
-
-      - path: /etc/sysctl.d/k8s.conf
-        content: |
-          net.bridge.bridge-nf-call-ip6tables = 1
-          net.bridge.bridge-nf-call-iptables = 1
-    runcmd:
-      - modprobe br_netfilter # Load br_netfilter module.
-      - curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --dearmor -o /usr/share/keyrings/kubernetes-archive-keyring.gpg
-      - echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list # Add the Kubernetes apt repository
-      - apt-get update -y # Update apt package index
-      - apt-get install -y containerd kubelet kubeadm kubectl # Install Docker Engine, kubelet, kubeadm and kubectl
-      - apt-mark hold kubelet kubeadm kubectl # pin kubelet kubeadm kubectl version
-      - sysctl --system # Reload settings from all system configuration files to take iptables configuration
+        lock_passwd: true
 
     # shutdown after first host initial provisioning
     power_state:

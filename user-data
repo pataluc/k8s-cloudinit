@@ -20,11 +20,12 @@ autoinstall:
     - curl
     - gnupg
     - lsb-release
-    - zsh
   # To run after install succeeds
   late-commands:
     # randomly generate the hostname & show the IP at boot
     - echo ubuntu-host-$(openssl rand -hex 3) > /target/etc/hostname
+    # dump the IP out at login screen
+    - echo "Ubuntu 22.04 LTS \nIP - \\4\n" > /target/etc/issue
     # shut-down the host to avoid an infinite installer loop
     - shutdown -h now
 
